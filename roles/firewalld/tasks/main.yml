@@ -1,0 +1,24 @@
+---
+  - name: Enable firewalld
+    service:
+      name: firewalld
+      state: started
+      enabled: true
+
+  - name: Open port
+    firewalld:
+      zone: public
+      port: '{{ item }}'
+      permanent: true
+      state: enabled
+    with_items:
+      - '{{ nginx_port }}'
+      - '{{ haproxy_front_port }}'
+      - '{{ haproxy_stats_port }}'
+      - '{{ percona_ports }}'
+
+  - name: Reload firewalld
+    service:
+      name: firewalld
+      state: reloaded
+      enabled: true

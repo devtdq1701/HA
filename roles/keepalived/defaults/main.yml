@@ -1,0 +1,5 @@
+---
+master_ip: 192.168.5.33
+backup_ip: 192.168.5.37
+vrrp_pass: 1111
+virtual_ipaddress: 192.168.5.240

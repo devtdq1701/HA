@@ -1,0 +1,10 @@
+---
+- hosts: nodes
+  become: yes
+  user: root
+  roles:
+    # - firewalld
+    # - percona
+    # - nginx
+    - keepalived
+    - haproxy

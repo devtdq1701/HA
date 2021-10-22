@@ -1,0 +1,47 @@
+# Global settings
+global
+        pidfile     /var/run/haproxy.pid
+        maxconn 100000
+        user haproxy
+        group haproxy
+        daemon
+        stats socket /var/lib/haproxy/stats
+        log 127.0.0.1   local0
+
+# Proxies settings
+## Defaults section
+defaults
+        log     global
+        mode    http
+        option  tcplog
+        option  dontlognull
+        retries 3
+        option      redispatch
+        maxconn     100000
+        retries                 3
+        timeout http-request    5s
+        timeout queue           10s
+        timeout connect         10s
+        timeout client          10s
+        timeout server          10s
+        timeout http-keep-alive 10s
+        timeout check           10s
+
+## Frontend section
+frontend http-in
+        bind *:{{ frontend_port }}
+        default_backend nginx
+## Backend section
+backend nginx
+        balance roundrobin
+        server centos1 {{ master_ip }}:{{ nginx_port }} weight {{ weight }} check
+        server centos2 {{ backup_ip }}:{{ nginx_port }} weight {{ weight }} check
+## Statistics settings
+listen statistics
+        bind *:{{ statistics_port }}
+        stats enable
+        stats hide-version
+        stats realm Haproxy\ Statistics
+        stats uri {{ stats_uri }}
+        stats refresh 30s
+        stats auth {{ stats_username }}:{{ stats_password }}

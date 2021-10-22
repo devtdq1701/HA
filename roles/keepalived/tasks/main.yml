@@ -1,0 +1,22 @@
+- name: install keepalived
+  yum: name=keepalived state=latest
+
+- name: config /etc/sysctl.conf
+  shell: echo 'net.ipv4.ip_nonlocal_bind = 1' >> /etc/sysctl.conf
+
+- name: config master node
+  template:
+    src: templates/master.keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  when: "'{{ ansible_host }}' == '{{ master_ip }}'"
+
+- name: config backup node
+  template:
+    src: templates/backup.keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  when: "'{{ ansible_host }}' == '{{ backup_ip }}'"
+
+- name: start keepalived
+  service: name=keepalived state=started enabled=yes
+
+
