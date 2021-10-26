@@ -1,6 +1,6 @@
 ---
-# - name: Change SELinux mode
-#   shell: setenforce 0
+- name: Change SELinux mode
+  shell: setenforce 0
 
 - name: Config '{{ selinux_dir }}'
   template:
@@ -60,6 +60,23 @@
     user: "{{ mysql_user_sst }}"
     password: "{{ mysql_password_sst }}"
     priv: "*.*:grant,reload,lock tables,process,replication client"
+  when: "'{{ ansible_host }}' == '{{ percona1 }}'"
+
+- name: Create {{ mysql_database }} database
+  mysql_db:
+    name: "{{ mysql_database }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  when: "'{{ ansible_host }}' == '{{ percona1 }}'"
+
+- name: "Create voiceotp user"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    user: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    priv: "{{ mysql_database }}.*:ALL"
   when: "'{{ ansible_host }}' == '{{ percona1 }}'"
 
 - name: Start MySQL in Percona2

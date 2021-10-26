@@ -22,3 +22,7 @@ percona2: '192.168.5.76'
 
 mysql_user_sst: 'sstuser'
 mysql_password_sst: 's3cretVT'
+
+mysql_user: 'voice_otp1'
+mysql_password: 'Voice_otp#20211'
+mysql_database: voiceotp1

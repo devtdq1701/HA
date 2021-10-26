@@ -9,6 +9,7 @@ docker_remove_packages:
   - docker-engine
 
 docker_install_packages:
+  - git
   - docker-ce
   - docker-ce-cli
   - containerd.io

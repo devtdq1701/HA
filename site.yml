@@ -3,9 +3,9 @@
   become: yes
   user: root
   roles:
-    # - firewalld
-    # - percona
-    # - nginx
-    # - keepalived
-    # - haproxy
+    - firewalld
+    - percona
+    - nginx
+    - keepalived
+    - haproxy
     - docker
