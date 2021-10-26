@@ -6,6 +6,6 @@
     - firewalld
     - percona
     - nginx
-    - keepalived
-    - haproxy
+    # - keepalived
+    # - haproxy
     - docker
