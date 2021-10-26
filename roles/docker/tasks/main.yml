@@ -1,0 +1,26 @@
+---
+- name: remove old docker
+  yum: name='{{ item }}' state=absent
+  with_items: '{{ docker_remove_packages }}'
+
+- name: install yum-utils
+  yum: name=yum-utils state=latest
+
+- name: add docker repo
+  shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: install docker
+  yum: name='{{ item }}' state=latest
+  with_items: '{{ docker_install_packages }}'
+
+- name: start and enable docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: install docker compose
+  shell: curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+- name: Changing perm of "/usr/local/bin/docker-compose", adding "+x"
+  file: dest=/usr/local/bin/docker-compose mode=a+x

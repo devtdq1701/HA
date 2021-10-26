@@ -3,9 +3,11 @@ mysql_remove_packages:
   - mysql-devel
   - mysql-libs
 
-percona_packages:
+percona_repos:
   - https://repo.percona.com/yum/percona-release-latest.noarch.rpm
   - epel-release
+
+percona_packages:
   - Percona-XtraDB-Cluster-57
   - MySQL-python
 
@@ -15,8 +17,8 @@ mysql_root_password: Quang12345@#$
 mysql_config: /etc/percona-xtradb-cluster.conf.d/wsrep.cnf
 
 cluster_name: percona_cluster
-percona1: '192.168.5.33'
-percona2: '192.168.5.37'
+percona1: '192.168.5.75'
+percona2: '192.168.5.76'
 
 mysql_user_sst: 'sstuser'
 mysql_password_sst: 's3cretVT'

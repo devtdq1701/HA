@@ -7,12 +7,16 @@
     src: "templates/selinux.cnf.j2"
     dest: '{{ selinux_dir }}'
 
-# - name: Remove MySQL
-#   yum: name={{ item }} state=absent
-#   with_items: '{{ mysql_remove_packages }}'
+- name: Remove MySQL
+  yum: name='{{ item }}' state=absent
+  with_items: '{{ mysql_remove_packages }}'
 
 - name: Add Percona Repository
-  yum: name={{ item }} state=latest
+  yum: name='{{ item }}' state=latest
+  with_items: '{{ percona_repos }}'
+
+- name: Install Percona
+  yum: name='{{ item }}' state=latest
   with_items: '{{ percona_packages }}'
   # notify: Start MySQL service
 

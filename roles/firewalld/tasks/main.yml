@@ -16,6 +16,7 @@
       - '{{ haproxy_front_port }}'
       - '{{ haproxy_stats_port }}'
       - '{{ percona_ports }}'
+      - '{{ apicore_ports }}'
 
   - name: Reload firewalld
     service:

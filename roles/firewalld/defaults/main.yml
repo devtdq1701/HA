@@ -9,5 +9,7 @@ percona_ports:
   - 4568/tcp
   - 4444/tcp
 
-
+apicore_ports:
+  - 9000/tcp
+  - 5065/tcp
 
