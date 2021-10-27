@@ -38,20 +38,20 @@
   template:
     src: templates/percona1.cnf.j2
     dest: "{{ mysql_config }}"
-  when: "'{{ ansible_host }}' == '{{ percona1 }}'"
+  when: "'{{ ansible_host }}' == '{{ master_ip }}'"
 
 - name: Config Percona2
   template:
     src: templates/percona2.cnf.j2
     dest: "{{ mysql_config }}"
-  when: "'{{ ansible_host }}' == '{{ percona2 }}'"
+  when: "'{{ ansible_host }}' == '{{ backup_ip }}'"
 
 - name: start mysql@bootstrap
   service:
     name: "mysql@bootstrap"
     state: started
     enabled: yes
-  when: "'{{ ansible_host }}' == '{{ percona1 }}'"
+  when: "'{{ ansible_host }}' == '{{ master_ip }}'"
 
 - name: "Create SST user"
   mysql_user:
@@ -60,7 +60,7 @@
     user: "{{ mysql_user_sst }}"
     password: "{{ mysql_password_sst }}"
     priv: "*.*:grant,reload,lock tables,process,replication client"
-  when: "'{{ ansible_host }}' == '{{ percona1 }}'"
+  when: "'{{ ansible_host }}' == '{{ master_ip }}'"
 
 - name: Create {{ mysql_database }} database
   mysql_db:
@@ -68,7 +68,7 @@
     state: present
     login_user: root
     login_password: "{{ mysql_root_password }}"
-  when: "'{{ ansible_host }}' == '{{ percona1 }}'"
+  when: "'{{ ansible_host }}' == '{{ master_ip }}'"
 
 - name: "Create voiceotp user"
   mysql_user:
@@ -77,13 +77,13 @@
     user: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
     priv: "{{ mysql_database }}.*:ALL"
-  when: "'{{ ansible_host }}' == '{{ percona1 }}'"
+  when: "'{{ ansible_host }}' == '{{ master_ip }}'"
 
 - name: Start MySQL in Percona2
   service:
     name: mysql
     state: restarted
     enabled: yes
-  when: "'{{ ansible_host }}' == '{{ percona2 }}'"
+  when: "'{{ ansible_host }}' == '{{ backup_ip }}'"
 
 

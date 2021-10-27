@@ -1,8 +1,6 @@
 ---
 stats_uri: /stats
 frontend_port: 80
-master_ip: 192.168.0.135
-backup_ip: 192.168.0.137
 nginx_port: 8080
 weight: 1
 statistics_port: 2000
